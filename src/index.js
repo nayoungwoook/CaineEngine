@@ -1,18 +1,24 @@
 var img1, img2;
 
-PreLoad = function () {
-    img1 = new CKImage('res/병신1.png');
-    img2 = new CKImage('res/병신2.png');
+class Game extends CKState {
+
+    PreLoad = function () {
+        img1 = new CKImage('res/병신1.png');
+        img2 = new CKImage('res/병신2.png');
+    }
+
+    Init = function () {
+
+    }
+
+    Update = function () {
+    }
+
+    Render = function () {
+        RenderImage(img1, 0, 0, 555 / 5, 1280 / 5);
+        RenderImage(img2, 1000, 400, 1440 / 5, 1402 / 5);
+    }
 }
 
-Init = function () {
-
-}
-
-Update = function () {
-}
-
-Render = function () {
-    RenderImage(img1, 100, 100, 555/3, 1280/3);
-    RenderImage(img2, 500, 100, 1440/3, 1402/3);
-}
+var game = new Game();
+SetState(game);

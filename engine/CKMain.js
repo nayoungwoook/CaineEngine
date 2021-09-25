@@ -9,6 +9,14 @@ var MousePosition;
 var MouseLeft = false, MouseRight = false, MouseCenter = false;
 var Key = [];
 
+var State;
+
+SetState = (state) => {
+    this.State = state;
+    this.State.PreLoad();
+    this.State.Init();
+}
+
 addEventListener('keydown', kd = (e) => {
     Key[e.key] = true;
 });
@@ -19,7 +27,7 @@ addEventListener('keyup', ku = (e) => {
 
 function getKeyCode(char) {
     var keyCode = char.charCodeAt(0);
-    if (keyCode > 90) {  
+    if (keyCode > 90) {
         return keyCode - 32;
     }
     return keyCode;
@@ -60,8 +68,6 @@ window.onload = () => {
 }
 
 init = () => {
-    PreLoad();
-    Init();
 }
 
 resize = () => {
@@ -78,14 +84,16 @@ loop = () => {
 var RenderObjects = [];
 
 _update = () => {
-    Update();
+    if (State != null)
+        State.Update();
 }
 
 let __frames__ = 0, __seconds__ = 0;
 
 _render = () => {
 
-    Render();
+    if (State != null)
+        State.Render();
 
     let today = new Date();
     let seconds = today.getSeconds();
@@ -103,10 +111,10 @@ _render = () => {
     RenderObjects = [];
 }
 
-class Debug{
+class Debug {
 
-    static Log(text){
-        console.log(text);
+    static Log(text) {
+        console.log('%c[Coke|System] : ' + '%c' + text, 'color:rgb(255, 105, 105) ', 'color:white');
     }
 
 }

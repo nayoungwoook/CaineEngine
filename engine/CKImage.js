@@ -1,7 +1,7 @@
 class CKImage extends Image {
 
     constructor(path) {
-        super(100, 100);
+        super(1024, 1024);
         this.src = path;
     }
 
