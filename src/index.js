@@ -12,11 +12,13 @@ class Game extends CKState {
     }
 
     Update = function () {
+        Camera.rotation += 0.02;
+        Camera.position.z = 1.5;
     }
 
     Render = function () {
-        RenderImage(img1, 0, 0, 555 / 5, 1280 / 5);
-        RenderImage(img2, 1000, 400, 1440 / 5, 1402 / 5);
+        RenderImage(img1, 200, 300, 555 / 5, 1280 / 5);
+        // RenderImage(img2, 1000, 400, 1440 / 5, 1402 / 5);
     }
 }
 

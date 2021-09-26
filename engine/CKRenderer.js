@@ -14,8 +14,8 @@ class CKRenderObject {
         this.position = new Vector2(x, y);
         this.width = width;
         this.height = height;
-        this.flipX = false;
-        this.flipY = true;
+        this.flipX = true;
+        this.flipY = false;
         this.renderPosition = new Vector2(x, y);
         this.renderWidth = width;
         this.renderHeight = height;
@@ -23,9 +23,12 @@ class CKRenderObject {
 
     render() {
 
-        let _ww = this.width / 2;
-        let _hh = this.height / 2;
         let fx = 1, fy = 1
+        this.renderWidth = this.width * Camera.position.z;
+        this.renderHeight = this.height * Camera.position.z;
+
+        let _ww = this.renderWidth / 2;
+        let _hh = this.renderHeight / 2;
 
         if (this.flipX) {
             fx = -1;
@@ -37,10 +40,22 @@ class CKRenderObject {
             _hh *= -1;
         }
 
-        this.renderPosition.x = this.position.x - Camera.position.x - _ww;
-        this.renderPosition.y = this.position.y - Camera.position.y - _hh;
-        this.renderWidth = this.width * fx;
-        this.renderHeight = this.height * fy;
+        this.renderWidth *= fx;
+        this.renderHeight *= fy;
+
+        let _xx = canvas.width / 2 - this.position.x;
+        let _yy = canvas.height / 2 - this.position.y;
+        let _dist = CKMath.GetDistance(new Vector2(canvas.width / 2, canvas.height / 2), this.position);
+
+        let rot = Math.atan2(_yy, _xx) + Camera.rotation;
+
+        let zx = (Math.cos(rot) * _dist * (Camera.position.z - 1));
+        let zy = (Math.sin(rot) * _dist * (Camera.position.z - 1));
+
+        Debug.Log(rot);
+
+        this.renderPosition.x = this.position.x - Camera.position.x - _ww - zx;
+        this.renderPosition.y = this.position.y - Camera.position.y - _hh - zy;
 
         ctx.fillStyle = color;
     }
@@ -57,7 +72,6 @@ class CKRenderImage extends CKRenderObject {
         super.render();
         ctx.drawImage(this.img, this.renderPosition.x, this.renderPosition.y, this.renderWidth, this.renderHeight);
     }
-
 }
 
 class CKRenderRect extends CKRenderObject {
