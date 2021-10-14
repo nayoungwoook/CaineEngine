@@ -1,4 +1,5 @@
 var img1, img2;
+var rot = 0;
 
 class Game extends CKState {
 
@@ -12,12 +13,16 @@ class Game extends CKState {
     }
 
     Update = function () {
-        Camera.rotation += 0.02;
-        Camera.position.z = 1.5;
+        if (Key['a']) {
+            Camera.rotation += 0.02;
+            // rot+=0.1;
+        }
     }
 
     Render = function () {
-        RenderImage(img1, 200, 300, 555 / 5, 1280 / 5);
+        RenderImage(img1, canvas.width / 2, canvas.height / 2, 555 / 5, 1280 / 5, rot);
+        RenderImage(img1, canvas.width / 2 + 111, canvas.height / 2, 555 / 5, 1280 / 5, rot);
+        RenderImage(img1, canvas.width / 2, canvas.height / 2 - 1280 / 5, 555 / 5, 1280 / 5, rot);
         // RenderImage(img2, 1000, 400, 1440 / 5, 1402 / 5);
     }
 }

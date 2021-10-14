@@ -111,8 +111,7 @@ _render = () => {
     RenderObjects = [];
 }
 
-class Debug {
-
+class Coke {
     static Log(text) {
         console.log('%c[Coke|System] : ' + '%c' + text, 'color:rgb(255, 105, 105) ', 'color:white');
     }

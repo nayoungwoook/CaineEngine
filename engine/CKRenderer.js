@@ -8,17 +8,30 @@ RenderImage = (img, x, y, width, height) => {
     RenderObjects.push(new CKRenderImage(img, x, y, width, height));
 }
 
+RenderImage = (img, x, y, width, height, rotation) => {
+    var ri = new CKRenderImage(img, x, y, width, height)
+    ri.rotation = rotation;
+
+    RenderObjects.push(ri);
+}
+
 class CKRenderObject {
 
     constructor(x, y, width, height) {
         this.position = new Vector2(x, y);
         this.width = width;
         this.height = height;
-        this.flipX = true;
+        this.flipX = false;
         this.flipY = false;
+        this.rotation = 0;
         this.renderPosition = new Vector2(x, y);
         this.renderWidth = width;
         this.renderHeight = height;
+
+        this.anchorX = 0.5;
+        this.anchorY = 0.5;
+        this._fx = false;
+        this._fy = false;
     }
 
     render() {
@@ -40,22 +53,25 @@ class CKRenderObject {
             _hh *= -1;
         }
 
+        this._fx = fx;
+        this._fy = fy;
+
+        _ww *= this._fx;
+        _hh *= this._fy;
+
         this.renderWidth *= fx;
         this.renderHeight *= fy;
 
-        let _xx = canvas.width / 2 - this.position.x;
-        let _yy = canvas.height / 2 - this.position.y;
-        let _dist = CKMath.GetDistance(new Vector2(canvas.width / 2, canvas.height / 2), this.position);
+        let _dist = CKMath.GetDistance(new Vector2(canvas.width / 2 + Camera.position.x, canvas.height / 2 + Camera.position.y), new Vector2(this.position.x, this.position.y));
+        let _rot = Math.atan2(canvas.height / 2 + Camera.position.y - this.position.y, canvas.width / 2 + Camera.position.x - this.position.x) + Camera.rotation;
+        let xx = (this.position.x - (canvas.width / 2 + Camera.position.x));
+        let yy = (this.position.y - (canvas.height / 2 + Camera.position.y));
+        let _zDist = _dist * (Camera.position.z);
 
-        let rot = Math.atan2(_yy, _xx) + Camera.rotation;
+        let _zx = (Math.cos(_rot) * _zDist), _zy = (Math.sin(_rot) * _zDist);
 
-        let zx = (Math.cos(rot) * _dist * (Camera.position.z - 1));
-        let zy = (Math.sin(rot) * _dist * (Camera.position.z - 1));
-
-        Debug.Log(rot);
-
-        this.renderPosition.x = this.position.x - Camera.position.x - _ww - zx;
-        this.renderPosition.y = this.position.y - Camera.position.y - _hh - zy;
+        this.renderPosition.x = this.position.x - Camera.position.x - _ww - (xx + _zx);
+        this.renderPosition.y = this.position.y - Camera.position.y - _hh - (yy + _zy);
 
         ctx.fillStyle = color;
     }
@@ -70,7 +86,18 @@ class CKRenderImage extends CKRenderObject {
 
     render() {
         super.render();
-        ctx.drawImage(this.img, this.renderPosition.x, this.renderPosition.y, this.renderWidth, this.renderHeight);
+
+        ctx.save();
+        ctx.translate(this.renderPosition.x, this.renderPosition.y);
+        ctx.scale(this._fx, this._fy);
+
+        ctx.translate(this.renderWidth * this.anchorX, this.renderHeight * this.anchorY);
+
+        ctx.rotate(this.rotation * this._fx * this._fy + Camera.rotation);
+
+        ctx.translate(-(this.renderWidth * this.anchorX), -(this.renderHeight * this.anchorY));
+        ctx.drawImage(this.img, 0, 0, this.renderWidth, this.renderHeight);
+        ctx.restore();
     }
 }
 
