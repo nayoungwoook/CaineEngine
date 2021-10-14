@@ -14,6 +14,7 @@ var Key = [];
 var State;
 
 SetState = (state) => {
+    resize();
     this.State = state;
     this.State.PreLoad();
     this.State.Init();
@@ -78,7 +79,6 @@ resize = () => {
 
     Width = canvas.width;
     Height = canvas.height;
-
 }
 
 loop = () => {
