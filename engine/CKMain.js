@@ -4,6 +4,8 @@ var ctx = canvas.getContext('2d');
 var targetFps = 60;
 var fps = 0;
 
+var Width = 100, Height = 100;
+
 var Camera;
 var MousePosition;
 var MouseLeft = false, MouseRight = false, MouseCenter = false;
@@ -73,6 +75,10 @@ init = () => {
 resize = () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
+    Width = canvas.width;
+    Height = canvas.height;
+
 }
 
 loop = () => {

@@ -20,9 +20,11 @@ class Game extends CKState {
     }
 
     Render = function () {
-        RenderImage(img1, canvas.width / 2, canvas.height / 2, 555 / 5, 1280 / 5, rot);
-        RenderImage(img1, canvas.width / 2 + 111, canvas.height / 2, 555 / 5, 1280 / 5, rot);
-        RenderImage(img1, canvas.width / 2, canvas.height / 2 - 1280 / 5, 555 / 5, 1280 / 5, rot);
+        Color = 'rgb(40, 40, 40)';
+        RenderRect(Width/2, Height/2, 300, 300);
+        // RenderImage(img1, canvas.width / 2, canvas.height / 2, 555 / 5, 1280 / 5, rot);
+        // RenderImage(img1, canvas.width / 2 + 111, canvas.height / 2, 555 / 5, 1280 / 5, rot);
+        // RenderImage(img1, canvas.width / 2, canvas.height / 2 - 1280 / 5, 555 / 5, 1280 / 5, rot);
         // RenderImage(img2, 1000, 400, 1440 / 5, 1402 / 5);
     }
 }

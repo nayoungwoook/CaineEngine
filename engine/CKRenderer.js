@@ -1,4 +1,4 @@
-var color = 'rgb(255, 40, 100)';
+var Color = 'rgb(255, 40, 100)';
 
 RenderRect = (x, y, width, height) => {
     RenderObjects.push(new CKRenderRect(x, y, width, height));
@@ -62,10 +62,10 @@ class CKRenderObject {
         this.renderWidth *= fx;
         this.renderHeight *= fy;
 
-        let _dist = CKMath.GetDistance(new Vector2(canvas.width / 2 + Camera.position.x, canvas.height / 2 + Camera.position.y), new Vector2(this.position.x, this.position.y));
-        let _rot = Math.atan2(canvas.height / 2 + Camera.position.y - this.position.y, canvas.width / 2 + Camera.position.x - this.position.x) + Camera.rotation;
-        let xx = (this.position.x - (canvas.width / 2 + Camera.position.x));
-        let yy = (this.position.y - (canvas.height / 2 + Camera.position.y));
+        let _dist = CKMath.GetDistance(new Vector2(Width / 2 + Camera.position.x, Height / 2 + Camera.position.y), new Vector2(this.position.x, this.position.y));
+        let _rot = Math.atan2(Height / 2 + Camera.position.y - this.position.y, Width / 2 + Camera.position.x - this.position.x) + Camera.rotation;
+        let xx = (this.position.x - (Width / 2 + Camera.position.x));
+        let yy = (this.position.y - (Height / 2 + Camera.position.y));
         let _zDist = _dist * (Camera.position.z);
 
         let _zx = (Math.cos(_rot) * _zDist), _zy = (Math.sin(_rot) * _zDist);
@@ -73,7 +73,7 @@ class CKRenderObject {
         this.renderPosition.x = this.position.x - Camera.position.x - _ww - (xx + _zx);
         this.renderPosition.y = this.position.y - Camera.position.y - _hh - (yy + _zy);
 
-        ctx.fillStyle = color;
+        ctx.fillStyle = Color;
     }
 
 }
@@ -108,7 +108,18 @@ class CKRenderRect extends CKRenderObject {
 
     render() {
         super.render();
-        ctx.fillRect(this.renderPosition.x, this.renderPosition.y, this.renderWidth, this.renderHeight);
+
+        ctx.save();
+        ctx.translate(this.renderPosition.x, this.renderPosition.y);
+        ctx.scale(this._fx, this._fy);
+
+        ctx.translate(this.renderWidth * this.anchorX, this.renderHeight * this.anchorY);
+
+        ctx.rotate(this.rotation * this._fx * this._fy + Camera.rotation);
+
+        ctx.translate(-(this.renderWidth * this.anchorX), -(this.renderHeight * this.anchorY));
+        ctx.fillRect(0, 0, this.renderWidth, this.renderHeight);
+        ctx.restore();
     }
 
 }
