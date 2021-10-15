@@ -20,6 +20,31 @@ SetState = (state) => {
     this.State.Init();
 }
 
+addEventListener("gamepadconnected", (event) => {
+    Coke.Log("A gamepad connected:");
+    Coke.Log(event.gamepad);
+});
+
+addEventListener("gamepaddisconnected", (event) => {
+    Coke.Log("A gamepad disconnected:");
+    Coke.Log(event.gamepad);
+});
+
+var GamePads = [];
+
+gamepadVibration = (GamePad, dur, mag) => {
+    GamePad.vibrationActuator.playEffect("dual-rumble", {
+        startDelay: 0,
+        duration: dur,
+        weakMagnitude: mag,
+        strongMagnitude: mag
+    });
+}
+
+gamepadUpdate = () => {
+    GamePads = navigator.getGamepads();
+}
+
 addEventListener('keydown', kd = (e) => {
     Key[e.key] = true;
 });
@@ -28,7 +53,7 @@ addEventListener('keyup', ku = (e) => {
     Key[e.key] = false;
 });
 
-function getKeyCode(char) {
+getKeyCode = (char) => {
     var keyCode = char.charCodeAt(0);
     if (keyCode > 90) {
         return keyCode - 32;
@@ -90,6 +115,7 @@ loop = () => {
 var RenderObjects = [];
 
 _update = () => {
+    gamepadUpdate();
     if (State != null)
         State.Update();
 }
@@ -110,8 +136,11 @@ _render = () => {
         __frames__ = 0;
     }
 
-    for (var i = 0; i < RenderObjects.length; i++) {
-        RenderObjects[i].render();
+    let _RO = RenderObjects.sort((a, b) => (a.position.z > b.position.z) ? 1 : -1);
+
+    for (var i = 0; i < _RO.length; i++) {
+        // RenderObjects[i].render();
+        _RO[i].render();
     }
 
     RenderObjects = [];

@@ -4,21 +4,38 @@ RenderRect = (x, y, width, height) => {
     RenderObjects.push(new CKRenderRect(x, y, width, height));
 }
 
-RenderImageRotation = (img, x, y, width, height, rotation) => {
-    var ri = new CKRenderImage(img, x, y, width, height);
-    ri.rotation = rotation;
+RenderRectZ = (x, y, z, width, height) => {
+    var rr = (new CKRenderRect(x, y, width, height));
 
-    RenderObjects.push(ri);
+    rr.position.z = z;
+
+    RenderObjects.push(rr);
 }
 
 RenderImage = (img, x, y, width, height) => {
     RenderObjects.push(new CKRenderImage(img, x, y, width, height));
 }
 
+RenderImageRotation = (img, x, y, width, height, rotation) => {
+    var ri = new CKRenderImage(img, x, y, width, height);
+
+    ri.rotation = rotation;
+
+    RenderObjects.push(ri);
+}
+
+RenderImageZ = (img, x, y, z, width, height) => {
+    var ri = new CKRenderImage(img, x, y, width, height);
+
+    ri.position.z = z;
+
+    RenderObjects.push(ri);
+}
+
 class CKRenderObject {
 
     constructor(x, y, width, height) {
-        this.position = new Vector2(x, y);
+        this.position = new Vector3(x, y, 1);
         this.width = width;
         this.height = height;
         this.flipX = false;
@@ -97,8 +114,10 @@ class CKRenderImage extends CKRenderObject {
         ctx.rotate(this.rotation * this._fx * this._fy + Camera.rotation);
 
         ctx.translate(-(this.renderWidth * this.anchorX), -(this.renderHeight * this.anchorY));
+
         if (this.sprite != null)
             ctx.drawImage(this.sprite, 0, 0, this.renderWidth, this.renderHeight);
+
         ctx.restore();
     }
 }
