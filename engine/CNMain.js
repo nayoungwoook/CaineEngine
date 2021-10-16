@@ -21,13 +21,13 @@ SetState = (state) => {
 }
 
 addEventListener("gamepadconnected", (event) => {
-    Coke.Log("A gamepad connected:");
-    Coke.Log(event.gamepad);
+    Caine.Log("A gamepad connected:");
+    Caine.Log(event.gamepad);
 });
 
 addEventListener("gamepaddisconnected", (event) => {
-    Coke.Log("A gamepad disconnected:");
-    Coke.Log(event.gamepad);
+    Caine.Log("A gamepad disconnected:");
+    Caine.Log(event.gamepad);
 });
 
 var GamePads = [];
@@ -146,9 +146,9 @@ _render = () => {
     RenderObjects = [];
 }
 
-class Coke {
+class Caine {
     static Log(text) {
-        console.log('%c[Coke|System] : ' + '%c' + text, 'color:rgb(255, 105, 105) ', 'color:white');
+        console.log('%c[Caine |System] : ' + '%c' + text, 'color:rgb(255, 105, 105) ', 'color:white');
     }
 
 }

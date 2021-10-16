@@ -44,6 +44,7 @@ class CNRenderObject {
         this.renderPosition = new Vector2(x, y);
         this.renderWidth = width;
         this.renderHeight = height;
+        this.render = true;
 
         this.anchorX = 0.5;
         this.anchorY = 0.5;
@@ -91,6 +92,13 @@ class CNRenderObject {
         this.renderPosition.y = this.position.y - Camera.position.y - _hh - (yy + _zy);
 
         ctx.fillStyle = Color;
+
+
+        this.render = true;
+        if (this.renderPosition.x < -this.renderWidth || this.renderPosition.x > Width + this.renderWidth)
+            this.render = false;
+        if (this.renderPosition.y < -this.renderHeight || this.renderPosition.y > Width + this.renderHeight)
+            this.render = false;
     }
 
 }
@@ -104,6 +112,9 @@ class CNRenderImage extends CNRenderObject {
 
     render() {
         super.render();
+
+        if (!this.render)
+            return;
 
         ctx.save();
         ctx.translate(this.renderPosition.x, this.renderPosition.y);
@@ -129,6 +140,9 @@ class CNRenderRect extends CNRenderObject {
 
     render() {
         super.render();
+
+        if (!this.render)
+            return;
 
         ctx.save();
         ctx.translate(this.renderPosition.x, this.renderPosition.y);
