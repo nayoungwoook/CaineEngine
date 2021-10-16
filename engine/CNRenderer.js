@@ -1,11 +1,11 @@
 var Color = 'rgb(255, 40, 100)';
 
 RenderRect = (x, y, width, height) => {
-    RenderObjects.push(new CKRenderRect(x, y, width, height));
+    RenderObjects.push(new CNRenderRect(x, y, width, height));
 }
 
 RenderRectZ = (x, y, z, width, height) => {
-    var rr = (new CKRenderRect(x, y, width, height));
+    var rr = (new CNRenderRect(x, y, width, height));
 
     rr.position.z = z;
 
@@ -13,11 +13,11 @@ RenderRectZ = (x, y, z, width, height) => {
 }
 
 RenderImage = (img, x, y, width, height) => {
-    RenderObjects.push(new CKRenderImage(img, x, y, width, height));
+    RenderObjects.push(new CNRenderImage(img, x, y, width, height));
 }
 
 RenderImageRotation = (img, x, y, width, height, rotation) => {
-    var ri = new CKRenderImage(img, x, y, width, height);
+    var ri = new CNRenderImage(img, x, y, width, height);
 
     ri.rotation = rotation;
 
@@ -25,14 +25,14 @@ RenderImageRotation = (img, x, y, width, height, rotation) => {
 }
 
 RenderImageZ = (img, x, y, z, width, height) => {
-    var ri = new CKRenderImage(img, x, y, width, height);
+    var ri = new CNRenderImage(img, x, y, width, height);
 
     ri.position.z = z;
 
     RenderObjects.push(ri);
 }
 
-class CKRenderObject {
+class CNRenderObject {
 
     constructor(x, y, width, height) {
         this.position = new Vector3(x, y, 1);
@@ -79,7 +79,7 @@ class CKRenderObject {
         this.renderWidth *= fx;
         this.renderHeight *= fy;
 
-        let _dist = CKMath.GetDistance(new Vector2(Width / 2 + Camera.position.x, Height / 2 + Camera.position.y), new Vector2(this.position.x, this.position.y));
+        let _dist = CNMath.GetDistance(new Vector2(Width / 2 + Camera.position.x, Height / 2 + Camera.position.y), new Vector2(this.position.x, this.position.y));
         let _rot = Math.atan2(Height / 2 + Camera.position.y - this.position.y, Width / 2 + Camera.position.x - this.position.x) + Camera.rotation;
         let xx = (this.position.x - (Width / 2 + Camera.position.x));
         let yy = (this.position.y - (Height / 2 + Camera.position.y));
@@ -95,7 +95,7 @@ class CKRenderObject {
 
 }
 
-class CKRenderImage extends CKRenderObject {
+class CNRenderImage extends CNRenderObject {
 
     constructor(img, x, y, width, height) {
         super(x, y, width, height);
@@ -122,7 +122,7 @@ class CKRenderImage extends CKRenderObject {
     }
 }
 
-class CKRenderRect extends CKRenderObject {
+class CNRenderRect extends CNRenderObject {
     constructor(x, y, width, height) {
         super(x, y, width, height);
     }

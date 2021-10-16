@@ -89,7 +89,7 @@ addEventListener('mousemove', mm = (e) => {
 
 window.onload = () => {
     targetFps = 60;
-    Camera = new CKCamera(0, 0);
+    Camera = new CNCamera(0, 0);
     MousePosition = new Vector2(0, 0);
     init();
     setInterval(loop, 1000 / targetFps);

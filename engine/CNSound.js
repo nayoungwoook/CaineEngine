@@ -1,4 +1,4 @@
-class CKSound extends Audio {
+class CNSound extends Audio {
 
     constructor(path){
         super();

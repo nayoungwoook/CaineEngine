@@ -1,4 +1,4 @@
-class CKState {
+class CNState {
 
     PreLoad() { }
 

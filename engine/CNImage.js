@@ -1,4 +1,4 @@
-class CKImage extends Image {
+class CNImage extends Image {
 
     constructor(path) {
         super(1024, 1024);
