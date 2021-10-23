@@ -11,4 +11,8 @@ class CNObject extends CNRenderImage {
         RenderObjects.push(this);
     }
 
+    render = () => {
+        super.render();
+    }
+
 }

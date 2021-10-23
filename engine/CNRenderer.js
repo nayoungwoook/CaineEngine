@@ -44,7 +44,7 @@ class CNRenderObject {
         this.renderPosition = new Vector2(x, y);
         this.renderWidth = width;
         this.renderHeight = height;
-        this.render = true;
+        this.isRender = true;
 
         this.anchorX = 0.5;
         this.anchorY = 0.5;
@@ -53,8 +53,7 @@ class CNRenderObject {
     }
 
     render() {
-
-        let fx = 1, fy = 1
+        let fx = 1, fy = 1;
         this.renderWidth = this.width * Camera.position.z;
         this.renderHeight = this.height * Camera.position.z;
 
@@ -93,12 +92,13 @@ class CNRenderObject {
 
         ctx.fillStyle = Color;
 
+        let outScreenSize = Math.sqrt(this.renderWidth * this.renderWidth + this.renderHeight * this.renderHeight);
 
-        this.render = true;
-        if (this.renderPosition.x < -this.renderWidth || this.renderPosition.x > Width + this.renderWidth)
-            this.render = false;
-        if (this.renderPosition.y < -this.renderHeight || this.renderPosition.y > Width + this.renderHeight)
-            this.render = false;
+        this.isRender = true;
+        if (this.renderPosition.x < -outScreenSize || this.renderPosition.x > Width + outScreenSize)
+            this.isRender = false;
+        if (this.renderPosition.y < -outScreenSize || this.renderPosition.y > Width + outScreenSize)
+            this.isRender = false;
     }
 
 }
@@ -113,7 +113,7 @@ class CNRenderImage extends CNRenderObject {
     render() {
         super.render();
 
-        if (!this.render)
+        if (!this.isRender)
             return;
 
         ctx.save();
@@ -141,7 +141,7 @@ class CNRenderRect extends CNRenderObject {
     render() {
         super.render();
 
-        if (!this.render)
+        if (!this.isRender)
             return;
 
         ctx.save();

@@ -3,7 +3,7 @@ class MyObject extends CNObject {
     constructor(img, x, y, width, height) {
         super(img, x, y, width, height);
 
-        this.moveSpeed = 6;
+        this.moveSpeed = 20;
         this.position.z = 2;
     }
 
@@ -26,17 +26,25 @@ class MyObject extends CNObject {
             Camera.position.x += GamePads[0].axes[2] * this.moveSpeed;
             Camera.position.y += GamePads[0].axes[3] * this.moveSpeed;
 
-            if (GamePads[0].buttons[4].pressed) {
+            if (GamePads[0].buttons[14].pressed) {
                 this.rotation -= 0.1;
             }
-            if (GamePads[0].buttons[5].pressed) {
+            if (GamePads[0].buttons[15].pressed) {
                 this.rotation += 0.1;
             }
+            if (GamePads[0].buttons[4].pressed) {
+                Camera.rotation -= 0.1;
+            }
+            if (GamePads[0].buttons[5].pressed) {
+                Camera.rotation += 0.1;
+            }
             if (GamePads[0].buttons[6].pressed) {
-                Camera.position.z += 0.01;
+                Camera.position.z += 0.1;
+                gamepadVibration(GamePads[0], 1, 1);
             }
             if (GamePads[0].buttons[7].pressed) {
-                Camera.position.z -= 0.01;
+                Camera.position.z -= 0.1;
+                gamepadVibration(GamePads[0], 1, 1);
             }
         }
     }
@@ -67,8 +75,8 @@ class Game extends CNState {
     }
 
     Render = function () {
-        for (var i = 0; i < 100; i++)
-            for (var j = 0; j < 100; j++)
+        for (var i = 0; i < 10; i++)
+            for (var j = 0; j < 10; j++)
                 RenderImage(this.img1, i * 200, j * 200, 200, 200);
         this.object.Render();
     }

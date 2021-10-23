@@ -137,13 +137,14 @@ _render = () => {
     }
 
     let _RO = RenderObjects.sort((a, b) => (a.position.z > b.position.z) ? 1 : -1);
-
+    
     for (var i = 0; i < _RO.length; i++) {
+        // console.log(_RO[i]);
         // RenderObjects[i].render();
         _RO[i].render();
     }
 
-    RenderObjects = [];
+    RenderObjects.splice(0, RenderObjects.length);
 }
 
 class Caine {
